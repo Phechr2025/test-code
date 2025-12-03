@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}จัดการผู้ใช้{% endblock %}
+
+{% block content %}
+<h1>เมนูจัดการผู้ใช้</h1>
+
+<form method="get" class="form" style="max-width:420px; margin-bottom:1rem;">
+  <label for="q">ค้นหาผู้ใช้ (ชื่อหรือ key)</label>
+  <input type="text" id="q" name="q" value="{{ q or '' }}" placeholder="เช่น: Phechr หรือ AB12CD34" />
+  <button type="submit" class="btn primary" style="margin-top:0.5rem;">ค้นหา</button>
+</form>
+
+{% if users %}
+  <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse:collapse; font-size:0.9rem;">
+      <thead>
+        <tr>
+          <th style="text-align:left; padding:0.5rem; border-bottom:1px solid #1f2937;">ID</th>
+          <th style="text-align:left; padding:0.5rem; border-bottom:1px solid #1f2937;">ชื่อผู้ใช้</th>
+          <th style="text-align:left; padding:0.5rem; border-bottom:1px solid #1f2937;">key</th>
+          <th style="text-align:left; padding:0.5rem; border-bottom:1px solid #1f2937;">สร้างเมื่อ</th>
+          <th style="text-align:left; padding:0.5rem; border-bottom:1px solid #1f2937;">จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+        <tr>
+          <td style="padding:0.4rem 0.5rem;">{{ u['id'] }}</td>
+          <td style="padding:0.4rem 0.5rem;">{{ u['username'] }}</td>
+          <td style="padding:0.4rem 0.5rem;">{{ u['user_key'] or '-' }}</td>
+          <td style="padding:0.4rem 0.5rem;">{{ u['created_at'] }}</td>
+          <td style="padding:0.4rem 0.5rem;">
+            <a href="{{ url_for('admin_user_edit', user_id=u['id']) }}" class="btn">ดู/แก้ไข</a>
+            <a href="{{ url_for('admin_user_history', user_id=u['id']) }}" class="btn">ประวัติการดู</a>
+            <form method="post" action="{{ url_for('admin_user_reset_key', user_id=u['id']) }}" style="display:inline;">
+              <button type="submit" class="btn">รีเซ็ต key</button>
+            </form>
+            <form method="post" action="{{ url_for('admin_user_delete', user_id=u['id']) }}" style="display:inline;" onsubmit="return confirm('ต้องการลบบัญชีนี้และประวัติการดูทั้งหมดหรือไม่?');">
+              <button type="submit" class="btn danger">ลบ</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <p>ไม่พบผู้ใช้ในระบบ</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}แก้ไขผู้ใช้ {{ user['username'] }}{% endblock %}
+
+{% block content %}
+<h1>จัดการผู้ใช้: {{ user['username'] }}</h1>
+
+<div class="form" style="margin-bottom:1rem;">
+  <p><strong>ID:</strong> {{ user['id'] }}</p>
+  <p><strong>ชื่อผู้ใช้ปัจจุบัน:</strong> {{ user['username'] }}</p>
+  <p><strong>key ปัจจุบัน:</strong> {{ user['user_key'] or '-' }}</p>
+  <p><strong>รหัสผ่านที่เก็บในระบบ (hash):</strong></p>
+  <code style="word-wrap:break-word; font-size:0.78rem;">{{ user['password'] }}</code>
+</div>
+
+<form method="post" class="form">
+  <label for="username">เปลี่ยนชื่อผู้ใช้</label>
+  <input type="text" id="username" name="username" value="{{ user['username'] }}" required />
+
+  <label for="new_password">ตั้งรหัสผ่านใหม่ (เว้นว่างถ้าไม่เปลี่ยน)</label>
+  <input type="password" id="new_password" name="new_password" />
+
+  <button type="submit" class="btn primary">บันทึกการเปลี่ยนแปลง</button>
+</form>
+
+<div style="margin-top:1.2rem;">
+  <a href="{{ url_for('admin_user_history', user_id=user['id']) }}" class="btn">ดูประวัติการดู</a>
+  <a href="{{ url_for('admin_users') }}" class="btn">กลับไปหน้ารายชื่อผู้ใช้</a>
+</div>
+{% endblock %}
