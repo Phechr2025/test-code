@@ -7,6 +7,7 @@ from io import BytesIO
 import re
 import secrets
 import string
+from functools import wraps
 
 from flask import (
     Flask, render_template, request, redirect,
