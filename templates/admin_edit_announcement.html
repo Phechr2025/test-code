@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}แก้ไขประกาศ{% endblock %}
+
+{% block content %}
+<h1>แก้ไขประกาศ</h1>
+
+<section class="form-section">
+  <form method="post" enctype="multipart/form-data" class="form">
+    <label for="title">หัวข้อประกาศ</label>
+    <input type="text" id="title" name="title" required value="{{ announcement.title }}">
+
+    <label for="content">รายละเอียด</label>
+    <textarea id="content" name="content" rows="4">{{ announcement.content }}</textarea>
+
+    <label for="image_url">ลิงก์รูปภาพ (ไม่บังคับ)</label>
+    <input type="url" id="image_url" name="image_url" value="{{ announcement.image_url or '' }}">
+
+    <label for="image_file">เปลี่ยนรูปภาพจากเครื่อง (ไม่บังคับ)</label>
+    <input type="file" id="image_file" name="image_file" accept="image/*">
+
+    {% if announcement.image_url %}
+      <p class="hint">รูปภาพปัจจุบัน:</p>
+      <a href="{{ announcement.image_url }}" target="_blank" rel="noopener">
+        <img src="{{ announcement.image_url }}" alt="{{ announcement.title }}" class="thumb" style="max-width:240px;">
+      </a>
+      <label>
+        <input type="checkbox" name="remove_image">
+        ลบรูปภาพออก
+      </label>
+    {% endif %}
+
+    <button type="submit" class="btn primary">บันทึกการแก้ไข</button>
+    <a href="{{ url_for('admin_announcements') }}" class="btn">ย้อนกลับ</a>
+  </form>
+</section>
+{% endblock %}
