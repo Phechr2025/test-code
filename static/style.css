@@ -629,3 +629,25 @@ list-style: none;
 .history-item a {
   color: #bfdbfe;
 }
+
+/* ===============================
+   FIX: PC VIDEO ASPECT RATIO
+   =============================== */
+
+.player-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+/* video element */
+.player-wrapper video,
+.video-player {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
