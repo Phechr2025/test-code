@@ -1,7 +1,3 @@
-/* ===============================
-   GLOBAL
-   =============================== */
-
 * {
   box-sizing: border-box;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -24,8 +20,8 @@ a {
 
 .navbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   padding: 0.75rem 1.25rem;
   background: #020617;
   border-bottom: 1px solid #1f2937;
@@ -39,17 +35,6 @@ a {
   font-size: 1.1rem;
 }
 
-.nav-center {
-  flex: 0 0 auto;
-}
-
-.nav-right {
-  position: absolute;
-  right: 1.25rem;
-  display: flex;
-  align-items: center;
-}
-
 .nav-right a {
   margin-left: 1rem;
   font-size: 0.9rem;
@@ -58,26 +43,6 @@ a {
 
 .nav-right a:hover {
   opacity: 1;
-}
-
-/* Hamburger */
-.menu-toggle {
-  position: absolute;
-  left: 1.25rem;
-  background: transparent;
-  border: none;
-  width: 28px;
-  height: 24px;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.menu-toggle span {
-  height: 3px;
-  border-radius: 999px;
-  background: #e5e7eb;
 }
 
 /* ===============================
@@ -90,7 +55,33 @@ a {
   padding: 0 1rem;
 }
 
-h1, h2 {
+.back-row {
+  margin-bottom: 0.5rem;
+}
+
+.back-btn {
+  border-color: #4b5563;
+  color: #e5e7eb;
+}
+
+.back-btn:hover {
+  background-color: #4b5563;
+  color: #ffffff;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  border-top: 1px solid #1f2937;
+  margin-top: 2rem;
+  background: #020617;
+}
+
+h1,
+h2 {
   margin-bottom: 0.75rem;
 }
 
@@ -137,18 +128,29 @@ h1, h2 {
 .card {
   background: #020617;
   border-radius: 0.75rem;
-  border: 1px solid #1f2937;
   overflow: hidden;
+  border: 1px solid #1f2937;
   display: flex;
   flex-direction: column;
 }
 
 .thumb {
   width: 100%;
+  height: auto;
   max-height: 260px;
   object-fit: contain;
   background: #111827;
   display: block;
+}
+
+.thumb.placeholder,
+.series-thumb.placeholder,
+.episode-thumb.placeholder-small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-size: 0.8rem;
 }
 
 /* ===============================
@@ -166,7 +168,10 @@ h1, h2 {
 }
 
 .series-thumb {
+  display: block;
+  max-width: 100%;
   width: 100%;
+  height: auto;
   max-height: 260px;
   object-fit: contain;
   border-radius: 0.75rem;
@@ -178,7 +183,7 @@ h1, h2 {
   flex: 1;
 }
 
-/* list reset (สำคัญ: ห้ามลอย) */
+/* ✅ FIX: list-style ต้องมี selector */
 ul {
   list-style: none;
   padding: 0;
@@ -193,6 +198,7 @@ ul {
 .episode-item-admin {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   padding: 0.7rem 0.8rem;
   border-radius: 0.75rem;
   border: 1px solid #1f2937;
@@ -226,12 +232,6 @@ ul {
    WATCH PAGE
    =============================== */
 
-.watch-page {
-  display: grid;
-  grid-template-columns: 2.2fr 1fr;
-  gap: 1rem;
-}
-
 .breadcrumb {
   font-size: 0.8rem;
   color: #9ca3af;
@@ -242,7 +242,13 @@ ul {
   color: #93c5fd;
 }
 
-/* 🔥 FIX VIDEO (PC / iPhone SAFE) */
+.watch-page {
+  display: grid;
+  grid-template-columns: 2.2fr 1fr;
+  gap: 1rem;
+}
+
+/* 🔥 FIX หลัก: player-wrapper ไม่มี padding */
 .player-wrapper {
   position: relative;
   width: 100%;
@@ -252,7 +258,7 @@ ul {
   overflow: hidden;
 }
 
-/* 16:9 ratio */
+/* 16:9 */
 .player-wrapper::before {
   content: "";
   display: block;
@@ -290,7 +296,7 @@ ul {
   background: rgba(15, 23, 42, 0.6);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s ease-out;
   z-index: 30;
 }
 
@@ -304,12 +310,15 @@ ul {
   top: 0;
   left: 0;
   width: 220px;
+  max-width: 75%;
   height: 100%;
   background: #020617;
   border-right: 1px solid #1f2937;
   transform: translateX(-100%);
-  transition: transform 0.2s;
+  transition: transform 0.2s ease-out;
   z-index: 40;
+  display: flex;
+  flex-direction: column;
 }
 
 .side-menu.open {
@@ -321,6 +330,25 @@ ul {
 }
 
 /* ===============================
+   HISTORY
+   =============================== */
+
+.history-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0 0;
+}
+
+.history-item {
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
+.history-item a {
+  color: #bfdbfe;
+}
+
+/* ===============================
    MOBILE
    =============================== */
 
@@ -329,7 +357,21 @@ ul {
     grid-template-columns: 1fr;
   }
 
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .nav-right a {
+    margin-left: 0.5rem;
+  }
+
   .series-header {
     flex-direction: column;
+  }
+
+  .episode-main {
+    max-width: 100%;
   }
 }
