@@ -14,6 +14,41 @@ from flask import (
 )
 
 from werkzeug.security import generate_password_hash, check_password_hash
+import re
+from flask import Response, request, send_file
+
+def range_stream(path):
+    file_size = os.path.getsize(path)
+    range_header = request.headers.get("Range", None)
+
+    # กรณี browser ไม่ส่ง Range มา
+    if not range_header:
+        return send_file(path, mimetype="video/mp4", conditional=True)
+
+    byte1, byte2 = 0, None
+    match = re.search(r"bytes=(\d+)-(\d*)", range_header)
+    if match:
+        byte1 = int(match.group(1))
+        if match.group(2):
+            byte2 = int(match.group(2))
+
+    if byte2 is None:
+        byte2 = file_size - 1
+
+    length = byte2 - byte1 + 1
+
+    with open(path, "rb") as f:
+        f.seek(byte1)
+        data = f.read(length)
+
+    resp = Response(data, 206, mimetype="video/mp4", direct_passthrough=True)
+    resp.headers.add(
+        "Content-Range",
+        f"bytes {byte1}-{byte2}/{file_size}"
+    )
+    resp.headers.add("Accept-Ranges", "bytes")
+    resp.headers.add("Content-Length", str(length))
+    return resp
 
 app = Flask(__name__)
 
