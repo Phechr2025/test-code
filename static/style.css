@@ -641,11 +641,11 @@ list-style: none;
   background: #000;
 }
 
-/* trick บังคับอัตราส่วน 16:9 (fallback ทุก browser) */
+/* 16:9 */
 .player-wrapper::before {
   content: "";
   display: block;
-  padding-top: 56.25%; /* 16:9 */
+  padding-top: 56.25%;
 }
 
 .player-wrapper video {
@@ -657,3 +657,4 @@ list-style: none;
   object-fit: contain;
   background: #000;
 }
+
