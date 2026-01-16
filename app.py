@@ -574,8 +574,7 @@ def stream_episode(episode_id):
                 abort(404)
         else:
             abort(404)
-
-    return send_file(abs_path, mimetype="video/mp4", as_attachment=False)
+    return range_stream(abs_path)
 
 
 
